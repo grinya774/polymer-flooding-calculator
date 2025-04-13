@@ -132,17 +132,16 @@ def main():
                        'Дополнительная добыча (м³)', 'Чистая прибыль (руб)', 'Адсорбция полимера (кг/м³)'],
         'Значение': [filtration_speed, mixing_velocity, time_days, oil_recovery_m3, net_profit, adsorption]
     })
-    if st.button("Сохранить результаты в Excel", key="save_excel"):
-        with io.BytesIO() as excel_buffer:
-            results_df.to_excel(excel_buffer, index=False, engine="openpyxl")
-            excel_buffer.seek(0)
-            st.download_button(
-                label="Сохранить результаты в Excel",
-                data=excel_buffer,
-                file_name="results.xlsx",
-                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                key="download_excel"
-            )
+    with io.BytesIO() as excel_buffer:
+        results_df.to_excel(excel_buffer, index=False, engine="openpyxl")
+        excel_buffer.seek(0)
+        st.download_button(
+            label="Сохранить результаты в Excel",
+            data=excel_buffer,
+            file_name="results.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            key="download_excel"
+        )
 
     # Визуализации
     st.markdown("### Визуализации")
@@ -180,17 +179,16 @@ def main():
         ax_sens.set_xlim(-25, 25)
         ax_sens.set_ylim(-50, 50)
         st.pyplot(fig_sens)
-        if st.button("Сохранить график анализа чувствительности в JPEG", key="save_sens"):
-            with io.BytesIO() as img_buffer:
-                fig_sens.savefig(img_buffer, format="jpeg", bbox_inches="tight")
-                img_buffer.seek(0)
-                st.download_button(
-                    label="Сохранить график анализа чувствительности в JPEG",
-                    data=img_buffer,
-                    file_name="sensitivity_plot.jpeg",
-                    mime="image/jpeg",
-                    key="download_sens"
-                )
+        with io.BytesIO() as img_buffer:
+            fig_sens.savefig(img_buffer, format="jpeg", bbox_inches="tight")
+            img_buffer.seek(0)
+            st.download_button(
+                label="Сохранить график анализа чувствительности в JPEG",
+                data=img_buffer,
+                file_name="sensitivity_plot.jpeg",
+                mime="image/jpeg",
+                key="download_sens"
+            )
 
     # Вкладка 2: 3D распределение
     with tab2:
@@ -208,17 +206,16 @@ def main():
             zaxis_title='Концентрация (%)'
         ))
         st.plotly_chart(fig_3d)
-        if st.button("Сохранить 3D график в JPEG", key="save_3d"):
-            with io.BytesIO() as img_buffer:
-                fig_3d.write_image(img_buffer, format="jpeg", engine="kaleido")
-                img_buffer.seek(0)
-                st.download_button(
-                    label="Сохранить 3D график в JPEG",
-                    data=img_buffer,
-                    file_name="3d_plot.jpeg",
-                    mime="image/jpeg",
-                    key="download_3d"
-                )
+        with io.BytesIO() as img_buffer:
+            fig_3d.write_image(img_buffer, format="jpeg", engine="kaleido")
+            img_buffer.seek(0)
+            st.download_button(
+                label="Сохранить 3D график в JPEG",
+                data=img_buffer,
+                file_name="3d_plot.jpeg",
+                mime="image/jpeg",
+                key="download_3d"
+            )
 
     # Вкладка 3: Тепловая карта
     with tab3:
@@ -238,17 +235,16 @@ def main():
         st.pyplot(fig_heatmap)
         adsorption_map = calculate_adsorption(polymer_saturation)
         st.write(f"Средняя адсорбция (кг/м³): {adsorption_map.mean():.4f}")
-        if st.button("Сохранить тепловую карту в JPEG", key="save_heatmap"):
-            with io.BytesIO() as img_buffer:
-                fig_heatmap.savefig(img_buffer, format="jpeg", bbox_inches="tight")
-                img_buffer.seek(0)
-                st.download_button(
-                    label="Сохранить тепловую карту в JPEG",
-                    data=img_buffer,
-                    file_name="heatmap.jpeg",
-                    mime="image/jpeg",
-                    key="download_heatmap"
-                )
+        with io.BytesIO() as img_buffer:
+            fig_heatmap.savefig(img_buffer, format="jpeg", bbox_inches="tight")
+            img_buffer.seek(0)
+            st.download_button(
+                label="Сохранить тепловую карту в JPEG",
+                data=img_buffer,
+                file_name="heatmap.jpeg",
+                mime="image/jpeg",
+                key="download_heatmap"
+            )
 
 
 if __name__ == "__main__":
